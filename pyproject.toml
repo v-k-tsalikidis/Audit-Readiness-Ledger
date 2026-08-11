@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "audit-readiness-ledger"
+version = "0.1.0"
+description = "Find which controls a security documentation set does not address, deterministically"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Vasileios Tsalikidis" }]
+dependencies = ["PyYAML>=6,<7", "python-docx>=1.1,<2"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<9", "openpyxl>=3.1,<4", "ruff>=0.6", "mypy>=1.11"]
+
+[project.scripts]
+audit-readiness-ledger = "audit_readiness_ledger.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+audit_readiness_ledger = ["catalogue/*.json", "lexicon/*.yaml"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "SIM", "UP", "C4", "PIE", "RET", "ISC", "DTZ", "RUF"]
+# RUF001 reports Greek characters as confusable with Latin ones. This tool
+# reads Greek document sets, so those characters are intentional data rather
+# than a homoglyph mistake.
+ignore = ["E501", "RUF001"]
+
+[tool.mypy]
+python_version = "3.10"
+files = ["src"]
+ignore_missing_imports = true
+warn_unused_ignores = true

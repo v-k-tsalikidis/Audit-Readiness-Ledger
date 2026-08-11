@@ -1,0 +1,6 @@
+Operational notes for the IT team.
+
+Change requests go through the ticket queue. There is no formal change
+management standard yet; this is on the list for next year.
+
+Vulnerability scanning was discussed with the supplier but has not started.
