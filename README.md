@@ -1,9 +1,16 @@
 # Audit Readiness Ledger
 
+[![CI](https://github.com/v-k-tsalikidis/Audit-Readiness-Ledger/actions/workflows/ci.yml/badge.svg)](https://github.com/v-k-tsalikidis/Audit-Readiness-Ledger/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10%2B-3776AB.svg)](pyproject.toml)
+
 Point it at a folder of security policies. It tells you which ISO 27001
 Annex A controls **no document in that folder addresses**.
 
 It never tells you a control is met. That is the whole design.
+
+Part of the Ledger tools: small local-first instruments that record a decision
+and the evidence behind it.
 
 ```bash
 pip install -e .
