@@ -1,0 +1,702 @@
+# Control signatures for ISO/IEC 27001:2022 Annex A
+#
+# This file is the whole argument of the tool. Anyone can read it, disagree
+# with a line, and change it. That is the point: an auditor asking "why did
+# it say that?" gets a rule they can see, not a model output.
+#
+# How to read an entry
+# --------------------
+#   anchors: a list of groups. A group is satisfied when any one of its
+#            terms appears in a document, matched whole and case-insensitively.
+#   required: how many groups must be satisfied in the SAME document before
+#            the control counts as addressed. Two is the normal setting: the
+#            subject, plus something being done about it.
+#   avoid:   terms that, on the same line, mean the hit is a different sense
+#            of the word. "log" beside "logistics" is the standard example.
+#
+# What a match means
+# ------------------
+# That the set says something on the subject. Not that the control is met.
+# The tool never claims the second, and neither should a report built on it.
+#
+# Coverage
+# --------
+# Signatures are written for the controls most often raised as findings.
+# Controls with no entry are reported as "not assessed", never as gaps.
+
+version: 1
+framework: ISO/IEC 27001:2022 Annex A
+
+signatures:
+
+  # --- A.5 Organizational -------------------------------------------------
+
+  A.5.1:
+    title: Policies for information security
+    anchors:
+      - [information security policy, security policy, isms policy]
+      - [approved, approval, authorised by, authorized by, signed off]
+      - [review, reviewed, reviewing]
+    required: 2
+
+  A.5.2:
+    title: Information security roles and responsibilities
+    anchors:
+      - [roles and responsibilities, responsibilities, accountable]
+      - [information security, security]
+      - [assigned, allocated, designated, appointed]
+    required: 3
+
+  A.5.3:
+    title: Segregation of duties
+    anchors:
+      - [segregation of duties, separation of duties, conflicting duties]
+      - [role, roles, function, functions]
+    required: 1
+    note: The phrase is specific enough that one group is sufficient.
+  A.5.4:
+    title: Management responsibilities
+    anchors:
+      - [management responsibilities, top management, senior management, management commitment]
+      - [require, requires, required, ensure, ensures, apply, comply, compliance, committed, demonstrate]
+    required: 2
+    # Without these, "change management is documented" would satisfy a
+    # control about what managers are answerable for.
+    avoid: [change management, asset management, project management, incident management, capacity management]
+  A.5.5:
+    title: Contact with authorities
+    anchors:
+      - [contact with authorities, relevant authorities, law enforcement, regulatory authority, regulatory authorities, supervisory authority, data protection authority]
+      - [maintain, maintained, notify, notified, notification, report, reported, liaison, escalated]
+    required: 2
+  A.5.6:
+    title: Contact with special interest groups
+    anchors:
+      - [special interest group, special interest groups, professional association, professional associations, security forum, security forums, industry forum, industry forums, information sharing]
+      - [membership, member, members, participate, participation, subscribe, subscribed, maintained, attend]
+    required: 2
+
+
+
+
+  A.5.7:
+    title: Threat intelligence
+    anchors:
+      - [threat intelligence, threat information, threat feed, threat feeds]
+      - [collected, analysed, analyzed, produced, subscribed, source, sources]
+    required: 2
+  A.5.8:
+    title: Information security in project management
+    anchors:
+      - [project management, security in projects, project manager, project managers, project lifecycle, project life cycle]
+      - [security requirements, risk assessment, security risks, integrated, addressed, considered, milestone, milestones]
+    required: 2
+
+
+  A.5.9:
+    title: Inventory of information and other associated assets
+    anchors:
+      - [asset inventory, inventory of assets, asset register, information asset]
+      - [owner, ownership, maintained, updated]
+    required: 2
+
+  A.5.10:
+    title: Acceptable use of information and other associated assets
+    anchors:
+      - [acceptable use, permitted use, authorised use, authorized use]
+      - [asset, assets, information, equipment]
+    required: 2
+  A.5.11:
+    title: Return of assets
+    anchors:
+      - [return of assets, return of company assets, return of equipment, return all assets, return their assets, returned to the organisation, returned to the company, return company property]
+      - [termination, terminated, leaver, leavers, offboarding, exit, last working day, departure, resignation]
+    required: 2
+
+
+  A.5.12:
+    title: Classification of information
+    anchors:
+      - [classification, classified, classify]
+      - [confidential, restricted, internal use, public, sensitivity]
+    required: 2
+    avoid: [job classification, classification of personnel]
+
+  A.5.13:
+    title: Labelling of information
+    anchors:
+      - [labelling, labeling, label, labelled, labeled, marking]
+      - [classification, confidential, restricted, sensitivity]
+    required: 2
+
+  A.5.14:
+    title: Information transfer
+    anchors:
+      - [information transfer, transfer of information, data transfer, exchange of information]
+      - [agreement, agreements, encrypted, encryption, secure, rules]
+    required: 2
+
+  A.5.15:
+    title: Access control
+    anchors:
+      - [access control, access rights, authorisation, authorization]
+      - [least privilege, need to know, need-to-know, role-based, business requirement]
+    required: 2
+    avoid: [physical access control]
+
+  A.5.16:
+    title: Identity management
+    anchors:
+      - [identity management, user account, user accounts, unique identifier, identity lifecycle]
+      - [created, provisioned, disabled, removed, deactivated, joiner, leaver]
+    required: 2
+
+  A.5.17:
+    title: Authentication information
+    anchors:
+      - [password, passwords, passphrase, authentication information, credential, credentials]
+      - [complexity, rotation, storage, issued, reset, multi-factor, mfa]
+    required: 2
+
+  A.5.18:
+    title: Access rights
+    anchors:
+      - [access rights, access review, recertification, entitlement, entitlements]
+      - [reviewed, revoked, removed, granted, periodically]
+    required: 2
+
+  A.5.19:
+    title: Information security in supplier relationships
+    anchors:
+      - [supplier, suppliers, vendor, vendors, third party, third-party]
+      - [information security, security requirements, risk, agreement]
+    required: 2
+  A.5.20:
+    title: Addressing information security within supplier agreements
+    anchors:
+      - [supplier agreement, supplier agreements, supplier contract, supplier contracts, contractual clauses, agreements with suppliers]
+      - [security requirements, confidentiality, terms, obligations, right to audit, service levels, signed]
+    required: 2
+  A.5.21:
+    title: Managing information security in the ICT supply chain
+    anchors:
+      - [supply chain, ict supply chain, subcontractor, subcontractors, sub-supplier, sub-suppliers, upstream suppliers, component suppliers]
+      - [risk, risks, assessed, requirements, verified, controls, propagated, flowed down]
+    required: 2
+  A.5.22:
+    title: Monitoring, review and change management of supplier services
+    anchors:
+      - [supplier services, service delivery, supplier performance, supplier review, supplier reviews, service reports]
+      - [monitored, monitoring, reviewed, audited, change, changes, meetings]
+    required: 2
+
+
+
+
+  A.5.23:
+    title: Information security for use of cloud services
+    anchors:
+      - [cloud service, cloud services, cloud provider, saas, iaas, paas]
+      - [security, responsibility, shared responsibility, exit, agreement]
+    required: 2
+
+  A.5.24:
+    title: Information security incident management planning and preparation
+    anchors:
+      - [incident management, incident response, security incident]
+      - [plan, procedure, procedures, roles, prepared, preparation]
+    required: 2
+
+  A.5.25:
+    title: Assessment and decision on information security events
+    anchors:
+      - [security event, security events, event assessment, triage]
+      - [assessed, categorised, categorized, classified, decide, decision]
+    required: 2
+
+  A.5.26:
+    title: Response to information security incidents
+    anchors:
+      - [incident response, respond to incidents, containment, eradication]
+      - [documented, recorded, procedure, escalation, escalate]
+    required: 2
+
+  A.5.27:
+    title: Learning from information security incidents
+    anchors:
+      - [lessons learned, lessons learnt, post-incident, post incident review]
+      - [incidents, actions, tracked, improvements, recurrence, root cause]
+    required: 2
+
+  A.5.28:
+    title: Collection of evidence
+    anchors:
+      - [collection of evidence, preservation of evidence, chain of custody, forensic]
+      - [investigation, preserved, collected, identified, admissible, integrity]
+    required: 2
+
+  A.5.29:
+    title: Information security during disruption
+    anchors:
+      - [business continuity, continuity plan, disruption, crisis]
+      - [information security, security controls, security is maintained]
+    required: 2
+
+  A.5.30:
+    title: ICT readiness for business continuity
+    anchors:
+      - [ict readiness, recovery time objective, rto, recovery point objective, rpo]
+      - [business continuity, continuity, disaster recovery]
+    required: 2
+
+  A.5.31:
+    title: Legal, statutory, regulatory and contractual requirements
+    anchors:
+      - [legal requirement, legal requirements, statutory, regulatory, contractual requirement]
+      - [identified, documented, register, compliance, applicable]
+    required: 2
+  A.5.32:
+    title: Intellectual property rights
+    anchors:
+      - [intellectual property, copyright, software licence, software licences, software license, software licenses, licence compliance, license compliance]
+      - [comply, respected, protected, register, records, prohibited, unlicensed, permitted]
+    required: 2
+
+
+  A.5.33:
+    title: Protection of records
+    anchors:
+      - [records, record retention, retention period, archive, archiving]
+      - [protected, disposal, integrity]
+    required: 2
+
+  A.5.34:
+    title: Privacy and protection of personally identifiable information
+    anchors:
+      - [personal data, personally identifiable information, pii, gdpr, privacy]
+      - [protection, processing, data subject, lawful, retention]
+    required: 2
+
+  A.5.35:
+    title: Independent review of information security
+    anchors:
+      - [independent review, internal audit, external audit, independent assessment]
+      - [information security, isms, security controls]
+    required: 2
+
+  A.5.36:
+    title: Compliance with policies, rules and standards for information security
+    anchors:
+      - [compliance with, adherence to, conformity]
+      - [policy, policies, standards, rules]
+      - [checked, monitored, reviewed, verified]
+    required: 3
+
+  A.5.37:
+    title: Documented operating procedures
+    anchors:
+      - [operating procedure, operating procedures, standard operating procedure, sop]
+      - [documented, available, maintained, followed]
+    required: 2
+
+  # --- A.6 People ---------------------------------------------------------
+
+  A.6.1:
+    title: Screening
+    anchors:
+      - [screening, background check, background verification, vetting, pre-employment]
+      - [candidate, candidates, personnel, employment, prior to]
+    required: 2
+
+  A.6.2:
+    title: Terms and conditions of employment
+    anchors:
+      - [terms and conditions, employment contract, employment agreement]
+      - [information security, security responsibilities, confidentiality]
+    required: 2
+
+  A.6.3:
+    title: Information security awareness, education and training
+    anchors:
+      - [awareness training, security awareness, security training, education]
+      - [personnel, staff, employees, annually, regular, induction]
+    required: 2
+
+  A.6.4:
+    title: Disciplinary process
+    anchors:
+      - [disciplinary process, disciplinary action, disciplinary procedure]
+      - [violation, breach, non-compliance, policy]
+    required: 2
+
+  A.6.5:
+    title: Responsibilities after termination or change of employment
+    anchors:
+      - [termination, offboarding, off-boarding, change of employment, leaver]
+      - [responsibilities, access, return, assets, obligations]
+    required: 2
+
+  A.6.6:
+    title: Confidentiality or non-disclosure agreements
+    anchors:
+      - [confidentiality agreement, non-disclosure agreement, nda, confidentiality undertaking]
+      - [signed, required, personnel, third party]
+    required: 2
+
+  A.6.7:
+    title: Remote working
+    anchors:
+      - [remote working, remote work, teleworking, working from home, home working]
+      - [security, vpn, device, controls, measures]
+    required: 2
+
+  A.6.8:
+    title: Information security event reporting
+    anchors:
+      - [report a security event, reporting security events, report an incident, reporting channel]
+      - [personnel, staff, employees, promptly, without delay]
+    required: 2
+
+  # --- A.7 Physical -------------------------------------------------------
+
+  A.7.1:
+    title: Physical security perimeters
+    anchors:
+      - [security perimeter, physical perimeter, perimeter]
+      - [building, site, premises, facility, secure area]
+    required: 2
+
+  A.7.2:
+    title: Physical entry
+    anchors:
+      - [physical entry, entry control, access badge, visitor, door access]
+      - [authorised, authorized, logged, escorted, restricted]
+    required: 2
+  A.7.3:
+    title: Securing offices, rooms and facilities
+    anchors:
+      - [server room, computer room, comms room, communications room, secure area, secure areas, offices and rooms]
+      - [locked, lock, access controlled, restricted, secured, protected, alarmed, unmarked, key]
+    required: 2
+
+
+  A.7.4:
+    title: Physical security monitoring
+    anchors:
+      - [cctv, surveillance, physical monitoring, intruder detection, alarm]
+      - [premises, site, facility, monitored]
+    required: 2
+  A.7.5:
+    title: Protecting against physical and environmental threats
+    anchors:
+      - [environmental threats, natural disaster, natural disasters, fire detection, fire suppression, flooding, earthquake, environmental controls]
+      - [protection, protected, detectors, mitigate, mitigated, alarm, alarms, sensors]
+    required: 2
+  A.7.6:
+    title: Working in secure areas
+    anchors:
+      - [working in secure areas, work in secure areas, inside secure areas, within secure areas]
+      - [rules, supervised, escorted, unattended, prohibited, photography, recording devices, authorised personnel, authorized personnel]
+    required: 2
+
+
+
+  A.7.7:
+    title: Clear desk and clear screen
+    anchors:
+      - [clear desk, clean desk, clear screen, screen lock]
+      - [policy, required, workstation, unattended]
+    required: 2
+  A.7.8:
+    title: Equipment siting and protection
+    anchors:
+      - [equipment siting, siting of equipment, siting, sited, placement of equipment]
+      - [protected, protection, reduce, minimise, minimize, unauthorised viewing, overlooked, environmental, positioned]
+    required: 2
+  A.7.9:
+    title: Security of assets off-premises
+    anchors:
+      - [off-premises, off premises, off-site, off site, outside the premises, taken off site, remote location, remote locations]
+      - [asset, assets, equipment, laptop, laptops, device, devices, protected, authorised, approval, encrypted]
+    required: 2
+    # An offsite backup copy is a backup control, not an asset taken out of
+    # the building. The word alone does not tell them apart; the line does.
+    avoid: [backup, backups, replication, replicated, archive]
+
+
+
+  A.7.10:
+    title: Storage media
+    anchors:
+      - [removable media, usb, storage media, external drive]
+      - [encrypted, authorised, authorized, disposal, prohibited, controlled]
+    required: 2
+  A.7.11:
+    title: Supporting utilities
+    anchors:
+      - [supporting utilities, power supply, uninterruptible power, generator, generators, air conditioning, hvac, water supply]
+      - [protected, redundant, redundancy, tested, maintained, failure, outage, continuity, capacity]
+    required: 2
+  A.7.12:
+    title: Cabling security
+    anchors:
+      - [cabling, cable, cables, patch panel, patch panels, cable runs]
+      - [protected, protection, conduit, segregated, labelled, labeled, inspection, secured, damage, interception]
+    required: 2
+  A.7.13:
+    title: Equipment maintenance
+    anchors:
+      - [equipment maintenance, maintenance of equipment, preventive maintenance, preventative maintenance, maintenance schedule, servicing]
+      - [intervals, records, supplier, authorised, authorized, insurance, manufacturer, warranty, faults]
+    required: 2
+
+
+
+
+  A.7.14:
+    title: Secure disposal or re-use of equipment
+    anchors:
+      - [secure disposal, sanitisation, sanitization, wiping, degaussing, destruction]
+      - [equipment, media, device, devices, re-use, reuse]
+    required: 2
+
+  # --- A.8 Technological --------------------------------------------------
+
+  A.8.1:
+    title: User endpoint devices
+    anchors:
+      - [endpoint, endpoints, laptop, workstation, mobile device, user device]
+      - [protected, hardened, encrypted, managed, configuration]
+    required: 2
+
+  A.8.2:
+    title: Privileged access rights
+    anchors:
+      - [privileged access, administrative access, admin account, privileged account]
+      - [restricted, approved, reviewed, separate, logged]
+    required: 2
+  A.8.3:
+    title: Information access restriction
+    anchors:
+      - [access restriction, information access restriction, need to know, need-to-know, restricted to those]
+      - [limited, granted, denied, role, roles, permissions, function, functions]
+    required: 2
+  A.8.4:
+    title: Access to source code
+    anchors:
+      - [source code, code repository, source code repository, program source, development libraries]
+      - [restricted, controlled, read-only, checked in, checked out, version control, approval, reviewed, branch]
+    required: 2
+
+
+
+  A.8.5:
+    title: Secure authentication
+    anchors:
+      - [multi-factor, multifactor, mfa, two-factor, 2fa, strong authentication]
+      - [login, log-on, access, sign-in]
+    required: 2
+  A.8.6:
+    title: Capacity management
+    anchors:
+      - [capacity management, capacity planning, capacity requirements, resource utilisation, resource utilization, capacity]
+      - [monitored, monitoring, forecast, forecasting, tuned, projections, thresholds, scaled, planned, demand]
+    required: 2
+
+
+  A.8.7:
+    title: Protection against malware
+    anchors:
+      - [malware, antivirus, anti-virus, endpoint protection, ransomware]
+      - [installed, updated, scanning, detection]
+    required: 2
+
+  A.8.8:
+    title: Management of technical vulnerabilities
+    anchors:
+      - [vulnerability, vulnerabilities, patch, patching, cve]
+      - [scanning, remediation, prioritised, prioritized, timeframe, applied]
+    required: 2
+
+  A.8.9:
+    title: Configuration management
+    anchors:
+      - [configuration management, baseline configuration, hardening, secure configuration]
+      - [documented, applied, monitored, deviation, standard]
+    required: 2
+  A.8.10:
+    title: Information deletion
+    anchors:
+      - [information deletion, deletion of information, secure deletion, data deletion, erasure, erased, securely deleted]
+      - [no longer required, retention, retention period, verified, certificate, records, request]
+    required: 2
+  A.8.11:
+    title: Data masking
+    anchors:
+      - [data masking, masking, masked, pseudonymisation, pseudonymization, anonymisation, anonymization, tokenisation, tokenization, obfuscation]
+      - [applied, used, personal data, disclosure, limit, limited, restricted, identifiable, test]
+    required: 2
+
+
+
+  A.8.12:
+    title: Data leakage prevention
+    anchors:
+      - [data leakage, data loss prevention, dlp, exfiltration]
+      - [monitored, blocked, controls, detection]
+    required: 2
+
+  A.8.13:
+    title: Information backup
+    anchors:
+      - [backup, backups, back-up]
+      - [restore, restoration, recovery, tested, retention, schedule, frequency]
+    required: 2
+  A.8.14:
+    title: Redundancy of information processing facilities
+    anchors:
+      - [redundancy, redundant, high availability, failover, fail-over, clustering, standby, secondary site]
+      - [tested, architecture, components, sufficient, requirements, replicated, switchover]
+    required: 2
+
+
+  A.8.15:
+    title: Logging
+    anchors:
+      - [audit log, audit logs, event log, event logs, logging, log retention]
+      - [retained, protected, reviewed, generated]
+    required: 2
+    avoid: [logistics, login, logistic]
+
+  A.8.16:
+    title: Monitoring activities
+    anchors:
+      - [monitoring, monitored, anomaly, anomalous, siem]
+      - [network, system, systems, activity, behaviour, behavior, alert]
+    required: 2
+
+  A.8.17:
+    title: Clock synchronization
+    anchors:
+      - [clock synchronisation, clock synchronization, time synchronisation, ntp, time source]
+      - [systems, servers, logs, accurate]
+    required: 2
+  A.8.18:
+    title: Use of privileged utility programs
+    anchors:
+      - [utility program, utility programs, privileged utilities, system utilities, diagnostic tools]
+      - [restricted, controlled, logged, removed, authorised, authorized, segregated, approval, limited]
+    required: 2
+  A.8.19:
+    title: Installation of software on operational systems
+    anchors:
+      - [installation of software, software installation, install software, installing software, software on operational systems]
+      - [restricted, controlled, approved, approval, authorised, authorized, procedure, prohibited, administrators, rollback]
+    required: 2
+
+
+
+  A.8.20:
+    title: Networks security
+    anchors:
+      - [network security, firewall, network controls, network device]
+      - [managed, configured, protected, rules, filtering]
+    required: 2
+  A.8.21:
+    title: Security of network services
+    anchors:
+      - [network services, network service, network service provider, service provider agreement]
+      - [security mechanisms, service levels, identified, agreed, monitored, requirements, encryption, authentication]
+    required: 2
+
+
+  A.8.22:
+    title: Segregation of networks
+    anchors:
+      - [network segregation, network segmentation, vlan, segmented network, dmz]
+      - [separated, isolated, zones]
+    required: 2
+  A.8.23:
+    title: Web filtering
+    anchors:
+      - [web filtering, url filtering, content filtering, web proxy, website categories, web browsing]
+      - [blocked, block, restricted, malicious, prohibited, allowed, filtered, warned]
+    required: 2
+
+
+  A.8.24:
+    title: Use of cryptography
+    anchors:
+      - [cryptography, encryption, cryptographic, tls, key management]
+      - [policy, algorithm, keys, at rest, in transit]
+    required: 2
+  A.8.25:
+    title: Secure development life cycle
+    anchors:
+      - [secure development, development life cycle, development lifecycle, sdlc, secure development policy]
+      - [rules, stages, phases, established, applied, documented, gates, checkpoints, requirements]
+    required: 2
+  A.8.26:
+    title: Application security requirements
+    anchors:
+      - [application security requirements, application security, requirements for applications, application development requirements]
+      - [identified, specified, documented, agreed, transactions, authentication, validation, input, session]
+    required: 2
+  A.8.27:
+    title: Secure system architecture and engineering principles
+    anchors:
+      - [secure architecture, security architecture, engineering principles, secure engineering, architecture principles, defence in depth, defense in depth, zero trust]
+      - [established, documented, applied, design, designs, reviewed, layered]
+    required: 2
+
+
+
+
+  A.8.28:
+    title: Secure coding
+    anchors:
+      - [secure coding, coding standard, code review, owasp]
+      - [developers, development, application]
+    required: 2
+  A.8.29:
+    title: Security testing in development and acceptance
+    anchors:
+      - [security testing, penetration test, penetration testing, acceptance testing, code review, security test]
+      - [performed, carried out, conducted, prior to, before release, criteria, results, remediated]
+    required: 2
+  A.8.30:
+    title: Outsourced development
+    anchors:
+      - [outsourced development, outsourced developers, development is outsourced, third party development, contracted development]
+      - [monitored, supervised, requirements, evidence, testing, acceptance, contract, right to audit, escrow]
+    required: 2
+
+
+
+  A.8.31:
+    title: Separation of development, test and production environments
+    anchors:
+      - [development environment, test environment, production environment, non-production]
+      - [separated, segregated, isolated, distinct]
+    required: 2
+
+  A.8.32:
+    title: Change management
+    anchors:
+      - [change management, change control, change request, cab]
+      - [approved, approval, tested, documented, recorded, back-out, rollback]
+    required: 2
+
+  A.8.33:
+    title: Test information
+    anchors:
+      - [test data, test information, testing data, live data in test, production data in test]
+      - [selected, protected, masked, anonymised, anonymized, controlled, deleted, approval, copied]
+    required: 2
+
+  A.8.34:
+    title: Protection of information systems during audit testing
+    anchors:
+      - [audit testing, audit tests, audit activities, auditor access, audit tools]
+      - [agreed, planned, read-only, minimised, minimized, restricted, scheduled, disruption, logged]
+    required: 2

@@ -1,0 +1,565 @@
+{
+  "framework": "ISO/IEC 27001:2022 Annex A",
+  "source": "Control identifiers and short titles only",
+  "licence": "Standard text is copyright ISO/IEC and is not reproduced",
+  "controls": [
+    {
+      "id": "A.5.1",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Policies for information security"
+    },
+    {
+      "id": "A.5.2",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Information security roles and responsibilities"
+    },
+    {
+      "id": "A.5.3",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Segregation of duties"
+    },
+    {
+      "id": "A.5.4",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Management responsibilities"
+    },
+    {
+      "id": "A.5.5",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Contact with authorities"
+    },
+    {
+      "id": "A.5.6",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Contact with special interest groups"
+    },
+    {
+      "id": "A.5.7",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Threat intelligence"
+    },
+    {
+      "id": "A.5.8",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Information security in project management"
+    },
+    {
+      "id": "A.5.9",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Inventory of information and other associated assets"
+    },
+    {
+      "id": "A.5.10",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Acceptable use of information and other associated assets"
+    },
+    {
+      "id": "A.5.11",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Return of assets"
+    },
+    {
+      "id": "A.5.12",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Classification of information"
+    },
+    {
+      "id": "A.5.13",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Labelling of information"
+    },
+    {
+      "id": "A.5.14",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Information transfer"
+    },
+    {
+      "id": "A.5.15",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Access control"
+    },
+    {
+      "id": "A.5.16",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Identity management"
+    },
+    {
+      "id": "A.5.17",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Authentication information"
+    },
+    {
+      "id": "A.5.18",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Access rights"
+    },
+    {
+      "id": "A.5.19",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Information security in supplier relationships"
+    },
+    {
+      "id": "A.5.20",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Addressing information security within supplier agreements"
+    },
+    {
+      "id": "A.5.21",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Managing information security in the ICT supply chain"
+    },
+    {
+      "id": "A.5.22",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Monitoring, review and change management of supplier services"
+    },
+    {
+      "id": "A.5.23",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Information security for use of cloud services"
+    },
+    {
+      "id": "A.5.24",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Information security incident management planning and preparation"
+    },
+    {
+      "id": "A.5.25",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Assessment and decision on information security events"
+    },
+    {
+      "id": "A.5.26",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Response to information security incidents"
+    },
+    {
+      "id": "A.5.27",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Learning from information security incidents"
+    },
+    {
+      "id": "A.5.28",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Collection of evidence"
+    },
+    {
+      "id": "A.5.29",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Information security during disruption"
+    },
+    {
+      "id": "A.5.30",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "ICT readiness for business continuity"
+    },
+    {
+      "id": "A.5.31",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Legal, statutory, regulatory and contractual requirements"
+    },
+    {
+      "id": "A.5.32",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Intellectual property rights"
+    },
+    {
+      "id": "A.5.33",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Protection of records"
+    },
+    {
+      "id": "A.5.34",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Privacy and protection of personally identifiable information"
+    },
+    {
+      "id": "A.5.35",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Independent review of information security"
+    },
+    {
+      "id": "A.5.36",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Compliance with policies, rules and standards for information security"
+    },
+    {
+      "id": "A.5.37",
+      "theme": "Organizational controls",
+      "clause": "A.5",
+      "title": "Documented operating procedures"
+    },
+    {
+      "id": "A.6.1",
+      "theme": "People controls",
+      "clause": "A.6",
+      "title": "Screening"
+    },
+    {
+      "id": "A.6.2",
+      "theme": "People controls",
+      "clause": "A.6",
+      "title": "Terms and conditions of employment"
+    },
+    {
+      "id": "A.6.3",
+      "theme": "People controls",
+      "clause": "A.6",
+      "title": "Information security awareness, education and training"
+    },
+    {
+      "id": "A.6.4",
+      "theme": "People controls",
+      "clause": "A.6",
+      "title": "Disciplinary process"
+    },
+    {
+      "id": "A.6.5",
+      "theme": "People controls",
+      "clause": "A.6",
+      "title": "Responsibilities after termination or change of employment"
+    },
+    {
+      "id": "A.6.6",
+      "theme": "People controls",
+      "clause": "A.6",
+      "title": "Confidentiality or non-disclosure agreements"
+    },
+    {
+      "id": "A.6.7",
+      "theme": "People controls",
+      "clause": "A.6",
+      "title": "Remote working"
+    },
+    {
+      "id": "A.6.8",
+      "theme": "People controls",
+      "clause": "A.6",
+      "title": "Information security event reporting"
+    },
+    {
+      "id": "A.7.1",
+      "theme": "Physical controls",
+      "clause": "A.7",
+      "title": "Physical security perimeters"
+    },
+    {
+      "id": "A.7.2",
+      "theme": "Physical controls",
+      "clause": "A.7",
+      "title": "Physical entry"
+    },
+    {
+      "id": "A.7.3",
+      "theme": "Physical controls",
+      "clause": "A.7",
+      "title": "Securing offices, rooms and facilities"
+    },
+    {
+      "id": "A.7.4",
+      "theme": "Physical controls",
+      "clause": "A.7",
+      "title": "Physical security monitoring"
+    },
+    {
+      "id": "A.7.5",
+      "theme": "Physical controls",
+      "clause": "A.7",
+      "title": "Protecting against physical and environmental threats"
+    },
+    {
+      "id": "A.7.6",
+      "theme": "Physical controls",
+      "clause": "A.7",
+      "title": "Working in secure areas"
+    },
+    {
+      "id": "A.7.7",
+      "theme": "Physical controls",
+      "clause": "A.7",
+      "title": "Clear desk and clear screen"
+    },
+    {
+      "id": "A.7.8",
+      "theme": "Physical controls",
+      "clause": "A.7",
+      "title": "Equipment siting and protection"
+    },
+    {
+      "id": "A.7.9",
+      "theme": "Physical controls",
+      "clause": "A.7",
+      "title": "Security of assets off-premises"
+    },
+    {
+      "id": "A.7.10",
+      "theme": "Physical controls",
+      "clause": "A.7",
+      "title": "Storage media"
+    },
+    {
+      "id": "A.7.11",
+      "theme": "Physical controls",
+      "clause": "A.7",
+      "title": "Supporting utilities"
+    },
+    {
+      "id": "A.7.12",
+      "theme": "Physical controls",
+      "clause": "A.7",
+      "title": "Cabling security"
+    },
+    {
+      "id": "A.7.13",
+      "theme": "Physical controls",
+      "clause": "A.7",
+      "title": "Equipment maintenance"
+    },
+    {
+      "id": "A.7.14",
+      "theme": "Physical controls",
+      "clause": "A.7",
+      "title": "Secure disposal or re-use of equipment"
+    },
+    {
+      "id": "A.8.1",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "User endpoint devices"
+    },
+    {
+      "id": "A.8.2",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Privileged access rights"
+    },
+    {
+      "id": "A.8.3",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Information access restriction"
+    },
+    {
+      "id": "A.8.4",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Access to source code"
+    },
+    {
+      "id": "A.8.5",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Secure authentication"
+    },
+    {
+      "id": "A.8.6",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Capacity management"
+    },
+    {
+      "id": "A.8.7",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Protection against malware"
+    },
+    {
+      "id": "A.8.8",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Management of technical vulnerabilities"
+    },
+    {
+      "id": "A.8.9",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Configuration management"
+    },
+    {
+      "id": "A.8.10",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Information deletion"
+    },
+    {
+      "id": "A.8.11",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Data masking"
+    },
+    {
+      "id": "A.8.12",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Data leakage prevention"
+    },
+    {
+      "id": "A.8.13",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Information backup"
+    },
+    {
+      "id": "A.8.14",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Redundancy of information processing facilities"
+    },
+    {
+      "id": "A.8.15",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Logging"
+    },
+    {
+      "id": "A.8.16",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Monitoring activities"
+    },
+    {
+      "id": "A.8.17",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Clock synchronization"
+    },
+    {
+      "id": "A.8.18",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Use of privileged utility programs"
+    },
+    {
+      "id": "A.8.19",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Installation of software on operational systems"
+    },
+    {
+      "id": "A.8.20",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Networks security"
+    },
+    {
+      "id": "A.8.21",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Security of network services"
+    },
+    {
+      "id": "A.8.22",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Segregation of networks"
+    },
+    {
+      "id": "A.8.23",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Web filtering"
+    },
+    {
+      "id": "A.8.24",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Use of cryptography"
+    },
+    {
+      "id": "A.8.25",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Secure development life cycle"
+    },
+    {
+      "id": "A.8.26",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Application security requirements"
+    },
+    {
+      "id": "A.8.27",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Secure system architecture and engineering principles"
+    },
+    {
+      "id": "A.8.28",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Secure coding"
+    },
+    {
+      "id": "A.8.29",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Security testing in development and acceptance"
+    },
+    {
+      "id": "A.8.30",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Outsourced development"
+    },
+    {
+      "id": "A.8.31",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Separation of development, test and production environments"
+    },
+    {
+      "id": "A.8.32",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Change management"
+    },
+    {
+      "id": "A.8.33",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Test information"
+    },
+    {
+      "id": "A.8.34",
+      "theme": "Technological controls",
+      "clause": "A.8",
+      "title": "Protection of information systems during audit testing"
+    }
+  ]
+}
