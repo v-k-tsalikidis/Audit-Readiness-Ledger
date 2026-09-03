@@ -121,6 +121,13 @@ def build_parser() -> argparse.ArgumentParser:
         help="show which catalogues are available and which have a lexicon",
     )
     parser.add_argument(
+        "--web",
+        "--ui",
+        action="store_true",
+        dest="launch_web",
+        help="launch the interactive Dual-Engine Assurance & Gatekeeper web dashboard",
+    )
+    parser.add_argument(
         "--version",
         action="version",
         version=f"audit-readiness-ledger {__version__}",
@@ -202,6 +209,25 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if args.list_frameworks:
         return _list_frameworks(sys.stdout)
+
+    if args.launch_web:
+        try:
+            import streamlit  # noqa: F401
+            import pandas  # noqa: F401
+        except ImportError:
+            print(
+                "The web assurance suite requires 'streamlit' and 'pandas'.\n"
+                "Install them with:\n"
+                "  pip install 'audit-readiness-ledger[web]'\n"
+                "or directly via:\n"
+                "  pip install streamlit pandas",
+                file=sys.stderr,
+            )
+            return 1
+
+        import subprocess
+        app_path = Path(__file__).resolve().parent / "app.py"
+        return subprocess.run([sys.executable, "-m", "streamlit", "run", str(app_path)]).returncode
 
     if args.folder is None:
         parser.print_usage(sys.stderr)

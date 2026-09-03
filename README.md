@@ -17,11 +17,29 @@ pip install -e .
 audit-readiness-ledger examples/meltemi-logistics/documents
 ```
 
+Or launch the interactive web dashboard and on-site audit workbench:
+
+```bash
+audit-readiness-ledger --web
+```
+
 The example set is bundled and fictional, so the first command you run
 shows you what the tool does without you handing it your own policies to
 find out. The report it produces is committed at
 [examples/meltemi-logistics/example-report.md](examples/meltemi-logistics/example-report.md)
 if you would rather read the output before installing anything.
+
+## Dual-Engine Assurance & Interactive Workbench
+
+The tool provides two operating modes:
+
+1. **Automated Document Scanner (CLI & Web):** Points to a directory of policies (`.md`, `.docx`, `.txt`) and deterministically verifies text evidence against Annex A controls on word boundaries.
+2. **Interactive Audit Workbench (Tablet/Mobile Web Suite):** A structured, touch-friendly digital clipboard for on-site facility walkthroughs. It enforces a strict **5-State Audit Taxonomy** (`UNASSESSED`, `FULLY_IMPLEMENTED`, `PARTIALLY_IMPLEMENTED`, `NOT_IMPLEMENTED`, `NOT_APPLICABLE`), manages Statement of Applicability (SoA) justifications, tracks the **Corrective Action Plan (CAP)** remediation lifecycle, and records follow-up re-audits.
+3. **Session Persistence (Zero Office Lock-In):** Save and resume assessments as standalone `.json` files, export tabular data as `.csv`, or generate formal executive audit reports as `.md`.
+
+See the detailed documentation:
+- [Audit Assurance Methodology](docs/AUDIT_METHODOLOGY.md): Why percentages do not grant accreditation, hard gates vs soft observations, and remediation tracking.
+- [User Guide & Tutorial](docs/USER_GUIDE.md): Step-by-step instructions for on-site audits, document ingestion, session persistence, and re-auditing.
 
 ## Why it refuses to score
 

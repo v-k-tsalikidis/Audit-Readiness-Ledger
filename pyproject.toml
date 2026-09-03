@@ -12,7 +12,8 @@ authors = [{ name = "Vasileios Tsalikidis" }]
 dependencies = ["PyYAML>=6,<7", "python-docx>=1.1,<2"]
 
 [project.optional-dependencies]
-dev = ["pytest>=8,<9", "openpyxl>=3.1,<4", "ruff>=0.6", "mypy>=1.11"]
+web = ["streamlit>=1.30", "pandas>=2.0"]
+dev = ["pytest>=8,<9", "openpyxl>=3.1,<4", "ruff>=0.6", "mypy>=1.11", "streamlit>=1.30", "pandas>=2.0"]
 
 [project.scripts]
 audit-readiness-ledger = "audit_readiness_ledger.cli:main"
