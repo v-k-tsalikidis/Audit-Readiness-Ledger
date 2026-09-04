@@ -46,24 +46,24 @@ GitHub: https://github.com/v-k-tsalikidis/Audit-Readiness-Ledger
 
 ## 1.1 First Comment (Auditor's Practical Field Guide)
 
-*Post this as the immediate first comment on LinkedIn to drive engagement and provide direct operational value to practitioners:*
+*Post this as the immediate first comment on LinkedIn (Verified 1,077 / 1,250 characters max):*
 
 ```markdown
-For fellow auditors, GRC practitioners, and security consultants—here is how this fits into a practical day-to-day audit workflow:
+For fellow auditors and GRC leads—here is how this fits into daily field audits:
 
-1. Pre-Audit Desk Review (30 Seconds)
-Run `audit-readiness-ledger POLICIES/` on the client's policy folder before you even schedule an interview. It instantly isolates controls that are completely unmentioned, expired documents, and ambiguous review dates. You arrive prepared with exact gap lines rather than reading hundreds of pages blindly.
+1. Pre-Audit Desk Review
+Run `audit-readiness-ledger POLICIES/` before scheduling interviews. In seconds, it flags unaddressed Annex A controls, expired policies, and date discrepancies across .md and .docx files—saving hours of blind document reading.
 
-2. On-Site Facility Walkthrough (Tablet / Mobile)
-Launch `audit-readiness-ledger --web` on a tablet during your physical walk-around (server rooms, badge perimeters, dispatch centers). Mark controls as FULLY or PARTIALLY IMPLEMENTED, check mandatory gates, and record live evidence citations in real time.
+2. Facility Walkthrough (Tablet / Mobile)
+Launch `audit-readiness-ledger --web` during on-site walk-arounds (server rooms, badge perimeters). Use the 5-state model (Fully, Partially, Not Implemented, or N/A with SoA justification) to record live evidence citations directly on tablet.
 
 3. Corrective Action Plan (CAP) Tracking
-When a baseline requirement fails, log the Root Cause, Corrective Action, Owner, and Target Date directly in the CAP tab. Download the entire audit session as an open JSON file to archive in the audit working dossier—zero vendor or SaaS lock-in.
+Log Root Cause, Corrective Action, Owner, and Target Date in the CAP tab. Save assessments as open JSON files into the audit dossier—zero vendor or SaaS lock-in.
 
-4. 30-Day Follow-Up & Re-Audit Clearance
-When the client remediates the gap, reload their JSON session. Verify the remediation on-site, mark it [VERIFIED_CLOSED], and the Gatekeeper dynamically clears the blocker and updates the executive report for final sign-off.
+4. Re-Audit Clearance
+When remediation completes, reload the JSON session. Toggle [VERIFIED_CLOSED] upon re-inspection, and the Gatekeeper dynamically clears the blocker to re-issue the executive report.
 
-Everything is offline-capable, local-first, and completely open source.
+Local-first, offline-capable, and open source.
 ```
 
 ---
