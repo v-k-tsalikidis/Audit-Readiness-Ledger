@@ -39,7 +39,7 @@ jobs:
         run: python -m ruff format --check src tests scripts
 
       - name: Type check
-        run: python -m mypy src
+        run: python -m mypy src --show-traceback
 
       - name: Compile source and tests
         run: python -m compileall -q src tests scripts
