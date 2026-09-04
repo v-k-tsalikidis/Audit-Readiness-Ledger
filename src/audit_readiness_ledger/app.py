@@ -10,29 +10,23 @@ Comprehensive ISO/IEC 27001:2022 Assurance Platform:
 
 from __future__ import annotations
 
-import json
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 import pandas as pd
 import streamlit as st
 
-from audit_readiness_ledger.cli import analyse, today_here
+from audit_readiness_ledger.cli import analyse
 from audit_readiness_ledger.gates import (
-    ISO_27001_DEFAULT_MANDATORY_CONTROLS,
     AccreditationVerdict,
 )
-from audit_readiness_ledger.hygiene import Status
-from audit_readiness_ledger.scoring import score_assessment
 from audit_readiness_ledger.signatures import Coverage
 from audit_readiness_ledger.workbench import (
-    AuditEntry,
     AuditSession,
     AuditState,
     RemediationStatus,
     initialize_blank_session,
 )
-
 
 # Page Configuration
 st.set_page_config(
@@ -171,7 +165,9 @@ with col_meta1:
 with col_meta2:
     session.auditor_name = st.text_input("Lead Auditor", value=session.auditor_name)
 
-session.audit_date = st.sidebar.date_input("Audit Date", value=date.fromisoformat(session.audit_date)).isoformat()
+session.audit_date = st.sidebar.date_input(
+    "Audit Date", value=date.fromisoformat(session.audit_date)
+).isoformat()
 
 st.sidebar.markdown("---")
 
@@ -262,20 +258,40 @@ else:
 # Executive KPI Metrics Row
 col_kpi1, col_kpi2, col_kpi3, col_kpi4, col_kpi5 = st.columns(5)
 with col_kpi1:
-    st.metric("Overall Maturity", f"{assessment.overall_score}%", delta=f"Strict: {assessment.overall_strict_score}%")
+    st.metric(
+        "Overall Maturity",
+        f"{assessment.overall_score}%",
+        delta=f"Strict: {assessment.overall_strict_score}%",
+    )
 with col_kpi2:
     st.metric(
         "Mandatory Gates",
         f"{gate_eval.satisfied_mandatory} / {gate_eval.total_mandatory}",
         delta=f"{gate_eval.mandatory_pass_rate}% Pass Rate",
-        delta_color="normal" if gate_eval.satisfied_mandatory == gate_eval.total_mandatory else "inverse",
+        delta_color="normal"
+        if gate_eval.satisfied_mandatory == gate_eval.total_mandatory
+        else "inverse",
     )
 with col_kpi3:
-    st.metric("Desirable Controls", f"{gate_eval.satisfied_desirable} / {gate_eval.total_desirable}", delta=f"{gate_eval.desirable_pass_rate}%")
+    st.metric(
+        "Desirable Controls",
+        f"{gate_eval.satisfied_desirable} / {gate_eval.total_desirable}",
+        delta=f"{gate_eval.desirable_pass_rate}%",
+    )
 with col_kpi4:
-    st.metric("Open Remediations", f"{session.open_remediations_count}", delta="CAP Items", delta_color="inverse" if session.open_remediations_count > 0 else "off")
+    st.metric(
+        "Open Remediations",
+        f"{session.open_remediations_count}",
+        delta="CAP Items",
+        delta_color="inverse" if session.open_remediations_count > 0 else "off",
+    )
 with col_kpi5:
-    st.metric("Excluded (N/A)", f"{session.excluded_count}", delta=f"{session.unassessed_count} Pending Review", delta_color="off")
+    st.metric(
+        "Excluded (N/A)",
+        f"{session.excluded_count}",
+        delta=f"{session.unassessed_count} Pending Review",
+        delta_color="off",
+    )
 
 st.markdown("---")
 
@@ -301,12 +317,14 @@ with main_tab_workbench:
         "Distinguish verified implementations, partial controls, non-conformities, and formal exclusions."
     )
 
-    domain_tabs = st.tabs([
-        "A.5 Organizational Controls (37)",
-        "A.6 People Controls (8)",
-        "A.7 Physical Controls (14)",
-        "A.8 Technological Controls (34)",
-    ])
+    domain_tabs = st.tabs(
+        [
+            "A.5 Organizational Controls (37)",
+            "A.6 People Controls (8)",
+            "A.7 Physical Controls (14)",
+            "A.8 Technological Controls (34)",
+        ]
+    )
 
     domain_mapping = {
         0: "Organizational controls",
@@ -335,7 +353,10 @@ with main_tab_workbench:
             for entry in controls_in_theme:
                 with st.expander(
                     f"{entry.control_id} — {entry.title} | [{entry.state.value.upper()}] {'[MANDATORY GATE]' if entry.is_mandatory else ''}",
-                    expanded=(entry.state is AuditState.UNASSESSED or entry.state is AuditState.NOT_IMPLEMENTED),
+                    expanded=(
+                        entry.state is AuditState.UNASSESSED
+                        or entry.state is AuditState.NOT_IMPLEMENTED
+                    ),
                 ):
                     c_col1, c_col2 = st.columns([2, 1])
 
@@ -365,11 +386,19 @@ with main_tab_workbench:
                             help="If checked, failure on this control directly fails the accreditation verdict.",
                         )
 
-                        if entry.state in {AuditState.NOT_IMPLEMENTED, AuditState.PARTIALLY_IMPLEMENTED}:
-                            st.caption("Non-conformity detected: Recorded in Corrective Action Plan.")
+                        if entry.state in {
+                            AuditState.NOT_IMPLEMENTED,
+                            AuditState.PARTIALLY_IMPLEMENTED,
+                        }:
+                            st.caption(
+                                "Non-conformity detected: Recorded in Corrective Action Plan."
+                            )
                             if entry.remediation_status is RemediationStatus.NOT_APPLICABLE:
                                 entry.remediation_status = RemediationStatus.OPEN
-                        elif entry.state in {AuditState.FULLY_IMPLEMENTED, AuditState.NOT_APPLICABLE}:
+                        elif entry.state in {
+                            AuditState.FULLY_IMPLEMENTED,
+                            AuditState.NOT_APPLICABLE,
+                        }:
                             if entry.remediation_status is RemediationStatus.OPEN:
                                 entry.remediation_status = RemediationStatus.NOT_APPLICABLE
 
@@ -392,7 +421,9 @@ with main_tab_remediation:
     ]
 
     if not gaps_requiring_action:
-        st.success("No open non-conformities or corrective actions required. All applicable controls are verified.")
+        st.success(
+            "No open non-conformities or corrective actions required. All applicable controls are verified."
+        )
     else:
         remed_status_options = [
             RemediationStatus.OPEN,
@@ -462,7 +493,8 @@ with main_tab_remediation:
                     if new_status is RemediationStatus.VERIFIED_CLOSED:
                         entry.verified_date = st.text_input(
                             "Verified Date",
-                            value=entry.verified_date or date.today().isoformat(),
+                            value=entry.verified_date
+                            or datetime.now(timezone.utc).date().isoformat(),
                             key=f"vdate_{entry.control_id}",
                         )
                         st.success("Remediation Verified: Blocker resolved in Gatekeeper.")
@@ -497,7 +529,9 @@ with main_tab_scanner:
                 st.error(f"Directory not found: {folder_path}")
             else:
                 try:
-                    analysis_result = analyse(folder_path, "iso-27001-2022", date.today())
+                    analysis_result = analyse(
+                        folder_path, "iso-27001-2022", datetime.now(timezone.utc).date()
+                    )
                     st.success(f"Scan complete: Read {len(analysis_result.documents_read)} files.")
 
                     # Auto-populate workbench entries from document findings
@@ -507,19 +541,31 @@ with main_tab_scanner:
                         if cid in session.entries:
                             if finding.coverage is Coverage.ADDRESSED:
                                 session.entries[cid].state = AuditState.FULLY_IMPLEMENTED
-                                hits_summary = ", ".join(f"{h.document}:L{h.line}" for h in finding.hits[:2])
-                                session.entries[cid].evidence_notes = f"Verified via document scan: {hits_summary}"
+                                hits_summary = ", ".join(
+                                    f"{h.document}:L{h.line}" for h in finding.hits[:2]
+                                )
+                                session.entries[
+                                    cid
+                                ].evidence_notes = f"Verified via document scan: {hits_summary}"
                                 updated_count += 1
                             elif finding.coverage is Coverage.UNCLEAR:
                                 session.entries[cid].state = AuditState.PARTIALLY_IMPLEMENTED
-                                session.entries[cid].evidence_notes = "Partial evidence found in scan (Unclear/Deferred)."
+                                session.entries[
+                                    cid
+                                ].evidence_notes = (
+                                    "Partial evidence found in scan (Unclear/Deferred)."
+                                )
                                 updated_count += 1
                             elif finding.coverage is Coverage.NOT_ADDRESSED:
                                 session.entries[cid].state = AuditState.NOT_IMPLEMENTED
-                                session.entries[cid].evidence_notes = "No document in set speaks to this control."
+                                session.entries[
+                                    cid
+                                ].evidence_notes = "No document in set speaks to this control."
                                 updated_count += 1
 
-                    st.info(f"Workbench synchronized: {updated_count} controls updated from document evidence.")
+                    st.info(
+                        f"Workbench synchronized: {updated_count} controls updated from document evidence."
+                    )
                     st.rerun()
                 except Exception as err:
                     st.error(f"Error during scan: {err}")
@@ -530,7 +576,9 @@ with main_tab_scanner:
 # ==============================================================================
 with main_tab_report:
     st.markdown("### Formal Executive Audit Report")
-    st.caption("Audit-grade executive summary formatted for governance boards and certifying authorities.")
+    st.caption(
+        "Audit-grade executive summary formatted for governance boards and certifying authorities."
+    )
 
     session.lessons_learned = st.text_area(
         "Auditor Remarks & Lessons Learned",
@@ -542,14 +590,16 @@ with main_tab_report:
     # Domain Breakdown Chart
     theme_records = []
     for tname, tscore in assessment.theme_scores.items():
-        theme_records.append({
-            "Domain": tname.replace(" controls", ""),
-            "Score %": tscore.score_percentage,
-            "Addressed": tscore.addressed,
-            "Unclear": tscore.unclear,
-            "Not Addressed": tscore.not_addressed,
-            "Total": tscore.total,
-        })
+        theme_records.append(
+            {
+                "Domain": tname.replace(" controls", ""),
+                "Score %": tscore.score_percentage,
+                "Addressed": tscore.addressed,
+                "Unclear": tscore.unclear,
+                "Not Addressed": tscore.not_addressed,
+                "Total": tscore.total,
+            }
+        )
     df_report_themes = pd.DataFrame(theme_records)
 
     st.markdown("#### Domain Maturity Breakdown")
@@ -558,12 +608,12 @@ with main_tab_report:
     # Markdown Report Generator
     def build_full_markdown_report() -> str:
         lines = [
-            f"# ISO/IEC 27001:2022 Executive Audit & Assurance Report",
+            "# ISO/IEC 27001:2022 Executive Audit & Assurance Report",
             f"\n**Target Organization:** {session.organization_name}  ",
             f"**Lead Auditor:** {session.auditor_name}  ",
             f"**Audit Date:** {session.audit_date}  ",
             f"**Framework:** {session.framework_name}\n",
-            f"## 1. Executive Accreditation Verdict\n",
+            "## 1. Executive Accreditation Verdict\n",
             f"- **Verdict:** `{gate_eval.verdict_label}`",
             f"- **Overall Maturity Score:** **{assessment.overall_score}%** (Strict Pass Rate: {assessment.overall_strict_score}%)",
             f"- **Mandatory Baseline Gates:** **{gate_eval.satisfied_mandatory} / {gate_eval.total_mandatory} ({gate_eval.mandatory_pass_rate}%)**",
@@ -576,29 +626,41 @@ with main_tab_report:
             lines.append("| :--- | :--- | :--- | :--- |")
             for b in gate_eval.blockers:
                 e = session.entries.get(b.control_id)
-                lines.append(f"| **{b.control_id}** | {e.title if e else ''} | {e.theme if e else ''} | **BLOCKER (Non-Conformity)** |")
+                lines.append(
+                    f"| **{b.control_id}** | {e.title if e else ''} | {e.theme if e else ''} | **BLOCKER (Non-Conformity)** |"
+                )
         else:
-            lines.append("Zero mandatory gate blockers identified. All baseline security prerequisites satisfied.\n")
+            lines.append(
+                "Zero mandatory gate blockers identified. All baseline security prerequisites satisfied.\n"
+            )
 
         lines.append("\n## 3. Corrective Action Plan (CAP) & Remediation Tracker\n")
-        cap_items = [e for e in session.entries.values() if e.remediation_status is not RemediationStatus.NOT_APPLICABLE]
+        cap_items = [
+            e
+            for e in session.entries.values()
+            if e.remediation_status is not RemediationStatus.NOT_APPLICABLE
+        ]
         if cap_items:
             lines.append("| Control | Action Required | Owner | Target Date | Status |")
             lines.append("| :--- | :--- | :--- | :--- | :--- |")
             for ci in cap_items:
-                lines.append(f"| **{ci.control_id}** | {ci.corrective_action or 'Action pending'} | {ci.remediation_owner or '-'} | {ci.target_date or '-'} | `{ci.remediation_status.value.upper()}` |")
+                lines.append(
+                    f"| **{ci.control_id}** | {ci.corrective_action or 'Action pending'} | {ci.remediation_owner or '-'} | {ci.target_date or '-'} | `{ci.remediation_status.value.upper()}` |"
+                )
         else:
             lines.append("No active corrective action items recorded.\n")
 
         if session.lessons_learned:
-            lines.append(f"\n## 4. Auditor Remarks & Lessons Learned\n")
+            lines.append("\n## 4. Auditor Remarks & Lessons Learned\n")
             lines.append(session.lessons_learned + "\n")
 
-        lines.append(f"\n## 5. Domain Maturity Summary\n")
+        lines.append("\n## 5. Domain Maturity Summary\n")
         lines.append("| Domain | Score % | Addressed | Unclear | Not Addressed | Total |")
         lines.append("| :--- | :--- | :--- | :--- | :--- | :--- |")
         for tr in theme_records:
-            lines.append(f"| {tr['Domain']} | {tr['Score %']}% | {tr['Addressed']} | {tr['Unclear']} | {tr['Not Addressed']} | {tr['Total']} |")
+            lines.append(
+                f"| {tr['Domain']} | {tr['Score %']}% | {tr['Addressed']} | {tr['Unclear']} | {tr['Not Addressed']} | {tr['Total']} |"
+            )
 
         return "\n".join(lines)
 

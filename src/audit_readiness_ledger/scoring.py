@@ -6,8 +6,8 @@ and feeding the deterministic gatekeeper.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Sequence
 
 from .gates import GateClass, GateEvaluation, evaluate_gates
 from .lexicon_loader import Framework
@@ -174,9 +174,7 @@ def score_assessment(
         else 0.0
     )
     overall_strict_score = (
-        round((total_addressed / total_assessed) * 100.0, 1)
-        if total_assessed > 0
-        else 0.0
+        round((total_addressed / total_assessed) * 100.0, 1) if total_assessed > 0 else 0.0
     )
 
     return AssuranceAssessment(

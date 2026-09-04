@@ -212,8 +212,8 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if args.launch_web:
         try:
-            import streamlit  # noqa: F401
             import pandas  # noqa: F401
+            import streamlit  # noqa: F401
         except ImportError:
             print(
                 "The web assurance suite requires 'streamlit' and 'pandas'.\n"
@@ -226,6 +226,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 1
 
         import subprocess
+
         app_path = Path(__file__).resolve().parent / "app.py"
         return subprocess.run([sys.executable, "-m", "streamlit", "run", str(app_path)]).returncode
 

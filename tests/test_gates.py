@@ -2,11 +2,8 @@
 
 from __future__ import annotations
 
-import pytest
-
 from audit_readiness_ledger.gates import (
     AccreditationVerdict,
-    GateClass,
     evaluate_gates,
 )
 from audit_readiness_ledger.lexicon_loader import Control, Framework
@@ -62,7 +59,7 @@ def test_missing_desirable_controls_pass_with_observations():
     findings = [
         dummy_finding("A.5.1", Coverage.ADDRESSED),
         dummy_finding("A.8.24", Coverage.ADDRESSED),
-        dummy_finding("A.5.8", Coverage.NOT_ADDRESSED),   # Desirable control missing
+        dummy_finding("A.5.8", Coverage.NOT_ADDRESSED),  # Desirable control missing
         dummy_finding("A.8.12", Coverage.NOT_ADDRESSED),  # Desirable control missing
     ]
 

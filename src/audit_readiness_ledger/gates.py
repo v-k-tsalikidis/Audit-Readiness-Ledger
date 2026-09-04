@@ -12,9 +12,9 @@ Conversely, missing non-mandatory / desirable controls results in PASSED WITH OB
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
 from enum import Enum
-from typing import Sequence
 
 from .signatures import Coverage, Finding
 
@@ -22,51 +22,50 @@ from .signatures import Coverage, Finding
 class GateClass(Enum):
     """Classification of a control within an accreditation framework."""
 
-    MANDATORY = "mandatory"      # Hard gate: failure blocks accreditation (BLOCKER)
-    DESIRABLE = "desirable"      # Soft gate: failure yields an observation / action item
+    MANDATORY = "mandatory"  # Hard gate: failure blocks accreditation (BLOCKER)
+    DESIRABLE = "desirable"  # Soft gate: failure yields an observation / action item
 
 
 class AccreditationVerdict(Enum):
     """Overall outcome of the accreditation assessment."""
 
-    FULLY_COMPLIANT = "fully_compliant"               # 100% of all applicable controls met
+    FULLY_COMPLIANT = "fully_compliant"  # 100% of all applicable controls met
     PASSED_WITH_OBSERVATIONS = "passed_observations"  # 100% of mandatory met, some desirable gaps
-    FAILED = "failed"                                 # >= 1 mandatory controls unmet (BLOCKER)
+    FAILED = "failed"  # >= 1 mandatory controls unmet (BLOCKER)
 
 
 # Canonical ISO/IEC 27001:2022 Annex A baseline mandatory controls.
 # These represent baseline non-negotiable security safeguards in enterprise/defense environments.
-ISO_27001_DEFAULT_MANDATORY_CONTROLS: frozenset[str] = frozenset({
-    # Governance & Foundational
-    "A.5.1",   # Policies for information security
-    "A.5.2",   # Information security roles and responsibilities
-    "A.5.4",   # Management responsibilities
-    "A.5.9",   # Inventory of information and other associated assets
-    "A.5.10",  # Acceptable use of information and other associated assets
-    "A.5.12",  # Classification of information
-    "A.5.15",  # Access control
-    "A.5.24",  # Information security incident management planning and preparation
-    "A.5.25",  # Assessment and decision on information security events
-    "A.5.26",  # Response to information security incidents
-    "A.5.31",  # Legal, statutory, regulatory and contractual requirements
-
-    # People Security
-    "A.6.3",   # Information security awareness, education and training
-
-    # Physical Security
-    "A.7.1",   # Physical security perimeters
-    "A.7.2",   # Physical entry
-
-    # Technological Security
-    "A.8.1",   # User endpoint devices
-    "A.8.2",   # Privileged access rights
-    "A.8.5",   # Secure authentication
-    "A.8.7",   # Protection against malware
-    "A.8.15",  # Logging
-    "A.8.16",  # Monitoring activities
-    "A.8.20",  # Network security
-    "A.8.24",  # Use of cryptography
-})
+ISO_27001_DEFAULT_MANDATORY_CONTROLS: frozenset[str] = frozenset(
+    {
+        # Governance & Foundational
+        "A.5.1",  # Policies for information security
+        "A.5.2",  # Information security roles and responsibilities
+        "A.5.4",  # Management responsibilities
+        "A.5.9",  # Inventory of information and other associated assets
+        "A.5.10",  # Acceptable use of information and other associated assets
+        "A.5.12",  # Classification of information
+        "A.5.15",  # Access control
+        "A.5.24",  # Information security incident management planning and preparation
+        "A.5.25",  # Assessment and decision on information security events
+        "A.5.26",  # Response to information security incidents
+        "A.5.31",  # Legal, statutory, regulatory and contractual requirements
+        # People Security
+        "A.6.3",  # Information security awareness, education and training
+        # Physical Security
+        "A.7.1",  # Physical security perimeters
+        "A.7.2",  # Physical entry
+        # Technological Security
+        "A.8.1",  # User endpoint devices
+        "A.8.2",  # Privileged access rights
+        "A.8.5",  # Secure authentication
+        "A.8.7",  # Protection against malware
+        "A.8.15",  # Logging
+        "A.8.16",  # Monitoring activities
+        "A.8.20",  # Network security
+        "A.8.24",  # Use of cryptography
+    }
+)
 
 
 @dataclass(frozen=True)

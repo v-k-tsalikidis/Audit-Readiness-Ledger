@@ -11,8 +11,8 @@ import csv
 import io
 import json
 import uuid
-from dataclasses import asdict, dataclass, field
-from datetime import date
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
@@ -23,7 +23,7 @@ from .gates import (
     GateEvaluation,
     GateFinding,
 )
-from .lexicon_loader import Framework, load_framework
+from .lexicon_loader import load_framework
 from .scoring import AssuranceAssessment, ScoredFinding, ThemeScore
 from .signatures import Coverage, Finding, TermHit
 
@@ -34,21 +34,21 @@ class AuditState(Enum):
     Eliminates ambiguity between unreviewed omissions and intentional exclusions.
     """
 
-    UNASSESSED = "unassessed"                      # Pending review / not yet audited
-    FULLY_IMPLEMENTED = "fully_implemented"        # 100% compliant and verified
-    PARTIALLY_IMPLEMENTED = "partially_implemented"# In progress / compensating control
-    NOT_IMPLEMENTED = "not_implemented"            # Clear non-conformity (Blocker if mandatory)
-    NOT_APPLICABLE = "not_applicable"              # Formally excluded via Statement of Applicability
+    UNASSESSED = "unassessed"  # Pending review / not yet audited
+    FULLY_IMPLEMENTED = "fully_implemented"  # 100% compliant and verified
+    PARTIALLY_IMPLEMENTED = "partially_implemented"  # In progress / compensating control
+    NOT_IMPLEMENTED = "not_implemented"  # Clear non-conformity (Blocker if mandatory)
+    NOT_APPLICABLE = "not_applicable"  # Formally excluded via Statement of Applicability
 
 
 class RemediationStatus(Enum):
     """Remediation and re-audit verification lifecycle."""
 
-    NOT_APPLICABLE = "not_applicable"   # Control is satisfied or excluded
-    OPEN = "open"                       # Non-conformity identified, no plan yet
-    IN_PROGRESS = "in_progress"         # Corrective action assigned and underway
-    PENDING_RE_AUDIT = "pending_re_audit"# Remediation reported complete, awaiting re-test
-    VERIFIED_CLOSED = "verified_closed" # Auditor verified remediation; control re-tested compliant
+    NOT_APPLICABLE = "not_applicable"  # Control is satisfied or excluded
+    OPEN = "open"  # Non-conformity identified, no plan yet
+    IN_PROGRESS = "in_progress"  # Corrective action assigned and underway
+    PENDING_RE_AUDIT = "pending_re_audit"  # Remediation reported complete, awaiting re-test
+    VERIFIED_CLOSED = "verified_closed"  # Auditor verified remediation; control re-tested compliant
 
 
 @dataclass
@@ -117,7 +117,7 @@ class AuditSession:
     session_id: str = field(default_factory=lambda: str(uuid.uuid4())[:8])
     organization_name: str = "Target Organization"
     auditor_name: str = "Lead Auditor"
-    audit_date: str = field(default_factory=lambda: date.today().isoformat())
+    audit_date: str = field(default_factory=lambda: datetime.now(timezone.utc).date().isoformat())
     framework_name: str = "ISO/IEC 27001:2022 Annex A"
     entries: dict[str, AuditEntry] = field(default_factory=dict)
     lessons_learned: str = ""
@@ -147,7 +147,12 @@ class AuditSession:
         return sum(
             1
             for e in self.entries.values()
-            if e.remediation_status in {RemediationStatus.OPEN, RemediationStatus.IN_PROGRESS, RemediationStatus.PENDING_RE_AUDIT}
+            if e.remediation_status
+            in {
+                RemediationStatus.OPEN,
+                RemediationStatus.IN_PROGRESS,
+                RemediationStatus.PENDING_RE_AUDIT,
+            }
         )
 
     @property
@@ -175,14 +180,13 @@ class AuditSession:
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> AuditSession:
         entries = {
-            cid: AuditEntry.from_dict(edata)
-            for cid, edata in data.get("entries", {}).items()
+            cid: AuditEntry.from_dict(edata) for cid, edata in data.get("entries", {}).items()
         }
         return cls(
             session_id=data.get("session_id", str(uuid.uuid4())[:8]),
             organization_name=data.get("organization_name", "Target Organization"),
             auditor_name=data.get("auditor_name", "Lead Auditor"),
-            audit_date=data.get("audit_date", date.today().isoformat()),
+            audit_date=data.get("audit_date", datetime.now(timezone.utc).date().isoformat()),
             framework_name=data.get("framework_name", "ISO/IEC 27001:2022 Annex A"),
             entries=entries,
             lessons_learned=data.get("lessons_learned", ""),
@@ -196,37 +200,41 @@ class AuditSession:
     def to_csv(self) -> str:
         output = io.StringIO()
         writer = csv.writer(output)
-        writer.writerow([
-            "Control ID",
-            "Title",
-            "Theme",
-            "Mandatory Gate",
-            "Audit State",
-            "Evidence / Exclusion Justification",
-            "Root Cause",
-            "Corrective Action",
-            "Owner",
-            "Target Date",
-            "Remediation Status",
-            "Verified Date",
-            "Verification Notes",
-        ])
-        for cid, e in sorted(self.entries.items()):
-            writer.writerow([
-                e.control_id,
-                e.title,
-                e.theme,
-                "YES" if e.is_mandatory else "NO",
-                e.state.value.upper(),
-                e.evidence_notes,
-                e.root_cause,
-                e.corrective_action,
-                e.remediation_owner,
-                e.target_date,
-                e.remediation_status.value.upper(),
-                e.verified_date,
-                e.verification_notes,
-            ])
+        writer.writerow(
+            [
+                "Control ID",
+                "Title",
+                "Theme",
+                "Mandatory Gate",
+                "Audit State",
+                "Evidence / Exclusion Justification",
+                "Root Cause",
+                "Corrective Action",
+                "Owner",
+                "Target Date",
+                "Remediation Status",
+                "Verified Date",
+                "Verification Notes",
+            ]
+        )
+        for _cid, e in sorted(self.entries.items()):
+            writer.writerow(
+                [
+                    e.control_id,
+                    e.title,
+                    e.theme,
+                    "YES" if e.is_mandatory else "NO",
+                    e.state.value.upper(),
+                    e.evidence_notes,
+                    e.root_cause,
+                    e.corrective_action,
+                    e.remediation_owner,
+                    e.target_date,
+                    e.remediation_status.value.upper(),
+                    e.verified_date,
+                    e.verification_notes,
+                ]
+            )
         return output.getvalue()
 
     def evaluate_assurance(self) -> tuple[AssuranceAssessment, GateEvaluation]:
@@ -301,14 +309,23 @@ class AuditSession:
 
             hits: tuple[TermHit, ...] = ()
             if entry.evidence_notes:
-                hits = (TermHit(term="Auditor Note", document="Workbench", line=1, excerpt=entry.evidence_notes),)
+                hits = (
+                    TermHit(
+                        term="Auditor Note",
+                        document="Workbench",
+                        line=1,
+                        excerpt=entry.evidence_notes,
+                    ),
+                )
 
             f = Finding(
                 control_id=cid,
                 coverage=coverage,
                 documents=("Workbench",) if entry.evidence_notes else (),
                 hits=hits,
-                groups_matched=2 if is_satisfied else (1 if effective_state is AuditState.PARTIALLY_IMPLEMENTED else 0),
+                groups_matched=2
+                if is_satisfied
+                else (1 if effective_state is AuditState.PARTIALLY_IMPLEMENTED else 0),
                 groups_required=2,
             )
             findings.append(f)
@@ -340,7 +357,12 @@ class AuditSession:
                     is_satisfied=is_satisfied,
                     is_blocker=(gate_class is GateClass.MANDATORY and not is_satisfied),
                     documents=("Workbench",) if entry.evidence_notes else (),
-                    explanation=entry.evidence_notes or ("Excluded via SoA" if entry.state is AuditState.NOT_APPLICABLE else f"Status: {entry.state.value}"),
+                    explanation=entry.evidence_notes
+                    or (
+                        "Excluded via SoA"
+                        if entry.state is AuditState.NOT_APPLICABLE
+                        else f"Status: {entry.state.value}"
+                    ),
                 )
             )
 
@@ -373,8 +395,12 @@ class AuditSession:
                 not_assessed=counts["not_assessed"],
             )
 
-        overall_score = round((total_points / total_applicable) * 100.0, 1) if total_applicable > 0 else 0.0
-        overall_strict_score = round((strict_points / total_applicable) * 100.0, 1) if total_applicable > 0 else 0.0
+        overall_score = (
+            round((total_points / total_applicable) * 100.0, 1) if total_applicable > 0 else 0.0
+        )
+        overall_strict_score = (
+            round((strict_points / total_applicable) * 100.0, 1) if total_applicable > 0 else 0.0
+        )
 
         assessment = AssuranceAssessment(
             framework_name=self.framework_name,
